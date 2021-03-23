@@ -1,24 +1,47 @@
 package seleniumproject;
 
-import java.util.concurrent.TimeUnit;
+
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.JavascriptExecutor;
+
+import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.Test;
+
+import baseclass.Baseclass;
 
 
-public class Chrome {
+public class Chrome extends Baseclass{
+
 	
-	
-	
-	public static void main(String[] args) {
-		System.setProperty("webdriver.chrome.driver", "D:\\Hanamant\\java\\driver\\chromedriver_win32(1) 83\\chromedriver.exe");
-		WebDriver driver =new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		driver.get("http://localhost/login.do");
+	@Test
+
+		public void loginUrl() throws InterruptedException {
 		
-		String st=driver.findElement(By.xpath("//p[contains(text(),'To login for')]")).getText();
-	    System.out.println(st);
+		driver.get("http://localhost/login.do");
+		JavascriptExecutor js=(JavascriptExecutor)driver;
+		WebElement email = driver.findElement(By.name("username"));
+		js.executeScript("arguments[0].value=arguments[1]",email,"admin");
+		WebElement pass = driver.findElement(By.name("pwd"));
+		js.executeScript("arguments[0].value='manager'", pass);
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("loginButton"))).click();
+		System.out.println(driver.getTitle());
+		Thread.sleep(5000);
+		
+		
+		
+//		String st=driver.findElement(By.xpath("//p[contains(text(),'To login for')]")).getText();
+//	    System.out.println(st);
 	}
+	
+	
+	
+	
+	
+	
 
 }
